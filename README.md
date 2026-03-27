@@ -10,14 +10,20 @@ Two pipelines:
 
 ---
 
+## Screenshot
+
+![VisionScribe UI](https://i.ibb.co/N2CsyNwX/8582788edb7b.png)
+
+---
+
 ## Files
 
 | File | Purpose |
 |------|---------|
 | `VisionScribe_v2.ahk` | Current script - v1.6 feature set, v2.0 (InstaSnap + Notion) not yet added |
 | `InstaImage2TextConverter.py` | Python CLI helper - OCR and Direct Vision modes |
-| `config.ini` | Live settings - API key, Tesseract path, models, prompts (gitignored) |
-| `config - example.ini` | Safe-to-commit config template |
+| `config.ini` | Local settings — API key, Tesseract path, models, prompts. Gitignored. |
+| `config - example.ini` | Committed template — copy this to `config.ini` to get started |
 
 ---
 
