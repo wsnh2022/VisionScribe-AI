@@ -51,10 +51,12 @@ Tesseract is OCR Pipeline only. Skip steps 3-4 if you only use Direct Vision.
 
 Download and install: https://www.autohotkey.com
 
-Verify:
+Verify install (PowerShell):
+```powershell
+Test-Path "C:\Program Files\AutoHotkey\v2\AutoHotkey.exe"
 ```
-"C:\Program Files\AutoHotkey\v2\AutoHotkey.exe" --version
-```
+
+Returns `True` if installed correctly.
 
 ---
 
@@ -97,7 +99,7 @@ Default install path: `C:\Program Files\Tesseract-OCR\`
 
 Verify:
 ```
-"C:\Program Files\Tesseract-OCR\tesseract.exe" --version
+tesseract.exe --version
 ```
 
 If installed to a different path, update `config.ini`:
