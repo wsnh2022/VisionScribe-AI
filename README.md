@@ -12,7 +12,7 @@ Two pipelines:
 
 ## Screenshot
 
-![VisionScribe UI](https://i.ibb.co/N2CsyNwX/8582788edb7b.png)
+![VisionScribe UI](assets/Tool_screenshot.png)
 
 ---
 
