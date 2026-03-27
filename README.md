@@ -21,30 +21,86 @@ Two pipelines:
 
 ---
 
+## Prerequisites
+
+| Dependency | Required for | Minimum version |
+|------------|-------------|-----------------|
+| AutoHotkey v2 | Running the `.ahk` script | 2.0+ |
+| Python | Both pipelines | 3.8+ |
+| Tesseract OCR | OCR Pipeline only | 5.x |
+| OpenRouter API key | Both AI pipelines | - |
+
+---
+
 ## Setup
+
+### Quick check — run these before first launch
+
+| Dependency | Verify command | Expected |
+|------------|---------------|----------|
+| AutoHotkey v2 | `"C:\Program Files\AutoHotkey\v2\AutoHotkey.exe" --version` | `2.x.x` |
+| Python | `python --version` | `3.8+` |
+| pip packages | `pip show pytesseract pillow requests` | All three listed |
+| Tesseract | `"C:\Program Files\Tesseract-OCR\tesseract.exe" --version` | `tesseract 5.x` |
+
+Tesseract is OCR Pipeline only. Skip steps 3-4 if you only use Direct Vision.
+
+---
 
 ### 1. AutoHotkey v2
 
-Version 2.0+. Download: https://www.autohotkey.com
+Download and install: https://www.autohotkey.com
+
+Verify:
+```
+"C:\Program Files\AutoHotkey\v2\AutoHotkey.exe" --version
+```
+
+---
 
 ### 2. Python 3.8+
 
-During install, check **"Add Python to PATH"**.
+Download: https://www.python.org/downloads/
 
+During install - check **"Add Python to PATH"** before clicking Install Now.
+
+Verify:
+```
+python --version
+```
+
+Install required packages:
 ```
 pip install pytesseract pillow requests
 ```
 
-`pytesseract` + `pillow` - OCR Pipeline only. `requests` - required for both modes.
+Verify packages installed:
+```
+pip show pytesseract pillow requests
+```
+
+| Package | Required for |
+|---------|-------------|
+| `pytesseract` | OCR Pipeline only |
+| `pillow` | OCR Pipeline only |
+| `requests` | Direct Vision + v2.0 InstaSnap fetch |
+
+---
 
 ### 3. Tesseract OCR
 
-Required for OCR Pipeline only - not needed for Direct Vision.
+Required for **OCR Pipeline only** - skip if you only use Direct Vision.
 
-Download: https://github.com/UB-Mannheim/tesseract/wiki
+Download Windows installer: https://github.com/UB-Mannheim/tesseract/wiki
+
 Default install path: `C:\Program Files\Tesseract-OCR\`
 
-If installed elsewhere, set the path in `config.ini`:
+Verify:
+```
+"C:\Program Files\Tesseract-OCR\tesseract.exe" --version
+```
+
+If installed to a different path, update `config.ini`:
 ```ini
 [Paths]
 TesseractExe = D:\Tools\Tesseract-OCR\tesseract.exe
@@ -52,14 +108,34 @@ TesseractExe = D:\Tools\Tesseract-OCR\tesseract.exe
 
 | Symptom | Fix |
 |---------|-----|
-| "Tesseract not found" | Path in `config.ini` doesn't match actual install location |
-| Garbled / empty output | Image resolution too low - use Direct Vision instead |
-| Wrong language | Reinstall Tesseract and add language packs during setup |
+| "Tesseract not found" | Path in `config.ini [Paths] TesseractExe` doesn't match actual install location |
+| Garbled or empty output | Image resolution too low - switch to Direct Vision instead |
+| Wrong language detected | Reinstall Tesseract and select additional language packs during setup |
+
+---
 
 ### 4. OpenRouter API Key
 
-Sign up at https://openrouter.ai → Keys → Create Key. Paste into `config.ini [API] Key`.
-Minimum $1 credit runs thousands of requests at these model rates.
+Sign up: https://openrouter.ai → Keys → Create Key
+
+Paste the key into `config.ini`:
+```ini
+[API]
+Key = sk-or-v1-...
+```
+
+Minimum $1 credit covers thousands of requests at the default model rates. Monitor usage at https://openrouter.ai/logs
+
+---
+
+### 5. Running
+
+Double-click `VisionScribe_v2.ahk`, or from terminal:
+```
+"C:\Program Files\AutoHotkey\v2\AutoHotkey.exe" "VisionScribe_v2.ahk"
+```
+
+`Ctrl+S` while the script is running reloads it (dev shortcut).
 
 ---
 
