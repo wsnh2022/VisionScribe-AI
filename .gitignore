@@ -13,4 +13,6 @@ VisionScribe_v1
 V3_Notion_Instasnap_Update_V3_Pending
 
 # other files
-CLAUDE.md
+CLAUDE.mdgitsync.bat 
+deploy-log.txt 
+.gitsync.lock 
