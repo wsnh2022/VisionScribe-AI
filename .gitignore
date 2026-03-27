@@ -1,0 +1,16 @@
+# Live config — contains API key and Tesseract path
+config.ini
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Temp files created during processing
+*.tmp
+
+# pending files
+VisionScribe_v1
+V3_Notion_Instasnap_Update_V3_Pending
+
+# other files
+CLAUDE.md
