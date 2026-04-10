@@ -123,11 +123,11 @@ DatabaseId = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 | `InstaImage2TextConverter.py` | `instasnap_mode()`, `notion_mode()`, updated `main()` dispatch |
 | `config - example.ini` | `[Notion]` section, `[Hotkeys]` section, 11th prompt preset |
 
-`VisionScribe_v2.ahk` currently carries the v1.6 codebase — v2.0 features are not yet added.
+`VisionScribe_v2.ahk` currently carries the v1.6 codebase - v2.0 features are not yet added.
 
 ---
 
-### Phase alpha — Instagram fetch
+### Phase alpha - Instagram fetch
 
 **Python: `instasnap_mode()`**
 
@@ -136,12 +136,12 @@ New `--instasnap` flag in `InstaImage2TextConverter.py`:
 python InstaImage2TextConverter.py --instasnap "https://www.instagram.com/p/DWTpDvNj72a/"
 python InstaImage2TextConverter.py --instasnap "DWTpDvNj72a"
 ```
-1. If input has no `/`, treat as shortcode — build full URL: `https://www.instagram.com/p/{shortcode}/`
+1. If input has no `/`, treat as shortcode - build full URL: `https://www.instagram.com/p/{shortcode}/`
 2. Call oEmbed (no auth): `https://api.instagram.com/oembed/?url={post_url}&format=json`
 3. Extract `thumbnail_url` from JSON response
 4. Download to `%TEMP%\ahk_instasnap_{shortcode}.jpg` via `requests`
-5. Print temp file path to stdout — AHK reads it the same way it reads OCR output
-6. Handle errors: network failure, bad shortcode (oEmbed 400), rate limit (429) — prefix with `ERROR:`
+5. Print temp file path to stdout - AHK reads it the same way it reads OCR output
+6. Handle errors: network failure, bad shortcode (oEmbed 400), rate limit (429) - prefix with `ERROR:`
 
 **AHK: GUI section in `Build()`**
 
@@ -155,14 +155,14 @@ New controls: `InstaUrlEdit`, `FetchBtn`, `InstaStatusLbl`
 
 **AHK: `FetchInstagram()` method**
 
-1. Read `InstaUrlEdit.Value` — reject if empty
+1. Read `InstaUrlEdit.Value` - reject if empty
 2. Disable `FetchBtn`, set `InstaStatusLbl` → "Fetching..."
 3. Shell to Python `--instasnap` → capture stdout from temp file
 4. If returned path exists on disk: load into `SelectedFiles`, update `PathEdit`, store shortcode in `static LastShortcode`
 5. If stdout starts with `ERROR:`, show in `InstaStatusLbl`
 6. Re-enable `FetchBtn`
 
-After fetch, user continues with the existing **Send Image Direct** button — no new pipeline.
+After fetch, user continues with the existing **Send Image Direct** button - no new pipeline.
 
 **`config - example.ini`: new preset**
 ```ini
@@ -173,7 +173,7 @@ Increment `[Prompts] Count` to `11`.
 
 ---
 
-### Phase beta — Notion push
+### Phase beta - Notion push
 
 **`config - example.ini`: new section**
 ```ini
@@ -219,7 +219,7 @@ Print created page URL to stdout, or `ERROR:` on failure.
 
 **AHK: `PushToNotion()` method**
 
-1. Get `ResultEdit.Value` — return if empty
+1. Get `ResultEdit.Value` - return if empty
 2. Title = `LastShortcode` if set, else first non-empty line of result
 3. Write result text to temp file, pass file path to Python (avoids shell escaping on long Markdown)
 4. Shell to Python `--notion` with token, database, title, mdfile
@@ -227,7 +227,7 @@ Print created page URL to stdout, or `ERROR:` on failure.
 
 ---
 
-### Phase rc — Hotkey trigger
+### Phase rc - Hotkey trigger
 
 **AHK: global hotkey (after `ImageChat.Build()`)**
 

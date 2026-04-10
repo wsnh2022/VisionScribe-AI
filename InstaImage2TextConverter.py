@@ -20,7 +20,7 @@ import re
 import base64
 import json
 
-DEFAULT_TESSERACT = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+DEFAULT_TESSERACT = "C:\Program Files\Tesseract-OCR\tesseract.exe"
 DEFAULT_API_URL   = "https://openrouter.ai/api/v1/chat/completions"
 
 MIME_MAP = {
@@ -86,6 +86,8 @@ def direct_mode(args):
         sys.exit(1)
     if not prompt:
         prompt = "Extract all text from this image exactly as written."
+    else:
+        prompt = prompt.replace('\\n', '\n')   # ← add this line
 
     api_url = api_url or DEFAULT_API_URL
     files   = args

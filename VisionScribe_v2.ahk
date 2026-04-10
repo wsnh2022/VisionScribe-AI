@@ -1,6 +1,6 @@
 #SingleInstance Force
 #Requires AutoHotkey v2.0+
-~*^s:: Reload
+; ~*^s:: Reload
 Tray := A_TrayMenu, Tray.Delete(), Tray.AddStandard(), Tray.Add()
 Tray.Add("Open Folder", (*) => Run(A_ScriptDir)), Tray.SetIcon("Open Folder", "shell32.dll", 5)
 
@@ -22,7 +22,7 @@ class ImageChat {
         ImageChat.ApiUrl        := IniRead(iniPath, "API",   "Url",          "https://openrouter.ai/api/v1/chat/completions")
         ImageChat.TesseractPath := IniRead(iniPath, "Paths", "TesseractExe", "C:\Program Files\Tesseract-OCR\tesseract.exe")
 
-        ; Load model list from [Models] section — numbered keys: 1_Label, 1_Id, 2_Label, 2_Id ...
+        ; Load model list from [Models] section - numbered keys: 1_Label, 1_Id, 2_Label, 2_Id ...
         count := Integer(IniRead(iniPath, "Models", "Count", "0"))
         loop count {
             label := IniRead(iniPath, "Models", A_Index . "_Label", "")
@@ -38,7 +38,7 @@ class ImageChat {
         ; Restore last used folder across sessions
         ImageChat.LastFolder := IniRead(iniPath, "State", "LastFolder", "")
 
-        ; Load prompt presets from [Prompts] section — numbered keys: 1_Title, 1_Text ...
+        ; Load prompt presets from [Prompts] section - numbered keys: 1_Title, 1_Text ...
         pcount := Integer(IniRead(iniPath, "Prompts", "Count", "0"))
         loop pcount {
             title := IniRead(iniPath, "Prompts", A_Index . "_Title", "")
@@ -65,10 +65,10 @@ class ImageChat {
     static OcrEdit      := unset
     static ResultEdit   := unset
     static ExtractBtn   := unset
-    static DirectBtn    := unset  ; "Send Image Direct" — bypasses OCR, sends raw images to vision model
+    static DirectBtn    := unset  ; "Send Image Direct" - bypasses OCR, sends raw images to vision model
     static SendBtn      := unset
     static ModelDDL     := unset
-    static PromptDDL    := unset  ; preset prompt selector — populated from config.ini [Prompts]
+    static PromptDDL    := unset  ; preset prompt selector - populated from config.ini [Prompts]
     static FallbackChk  := unset
     static StatusLbl    := unset
 
@@ -87,7 +87,7 @@ class ImageChat {
         ImageChat.Win.Add("Text", "xm ym", "Model:")
         ImageChat.ModelDDL := ImageChat.Win.Add("DropDownList", "xm+50 yp-3 w320 Choose1", ImageChat.ModelLabels)
         ImageChat.FallbackChk := ImageChat.Win.Add("CheckBox", "x+10 yp+3 Checked cCCCCCC", "Auto Fallback")
-        ; View Logs link — own line, right-aligned so it's always visible
+        ; View Logs link - own line, right-aligned so it's always visible
         ImageChat.Win.Add("Link", "x390 y+6 w100 Right",
             '<a style="color:#6AABDB;font-size:8pt" href="https://openrouter.ai/logs">View Logs ↗</a>')
 
@@ -113,7 +113,7 @@ class ImageChat {
         ; --- Step 2 ---
         ImageChat.Win.Add("Text", "xm y+12 c666666", "--- Step 2: Send to AI ---")
 
-        ; Preset prompt selector — selecting immediately fills the prompt Edit box
+        ; Preset prompt selector - selecting immediately fills the prompt Edit box
         ImageChat.Win.Add("Text", "xm y+8", "Preset:")
         presetLabels := ["-- Select Preset Prompt --"]
         for t in ImageChat.PromptTitles
@@ -195,7 +195,7 @@ class ImageChat {
             }
         }
 
-        ; Run Python OCR on image files — pass TesseractExe path from config.ini
+        ; Run Python OCR on image files - pass TesseractExe path from config.ini
         if (imageFiles.Length > 0) {
             tmpOut := A_Temp . "\ahk_ocr_output.txt"
             args   := ""
@@ -368,7 +368,7 @@ class ImageChat {
         return "Could not parse response.`n`n--- Raw JSON ---`n" . json
     }
 
-    ; --- Fill prompt Edit box from selected preset — index 1 is the placeholder, skip it ---
+    ; --- Fill prompt Edit box from selected preset - index 1 is the placeholder, skip it ---
     static LoadPresetPrompt() {
         idx := ImageChat.PromptDDL.Value
         if (idx <= 1)  ; placeholder "-- Select Preset Prompt --" selected, do nothing
@@ -406,7 +406,7 @@ class ImageChat {
         if (prompt = "")
             return MsgBox("Enter a prompt first.", "Missing Prompt", "Icon!")
 
-        ; Filter to image files only — skip txt/md
+        ; Filter to image files only - skip txt/md
         imgExts    := ["jpg","jpeg","png","bmp","gif","tiff","tif","webp"]
         imageFiles := []
         for f in files {
@@ -422,14 +422,17 @@ class ImageChat {
 
         ImageChat.DirectBtn.Enabled  := false
         ImageChat.ResultEdit.Value   := "Sending " . imageFiles.Length . " image(s) to AI..."
-        ImageChat.SetStatus("Calling Python for direct vision — base64 + API handled by Python...")
+        ImageChat.SetStatus("Calling Python for direct vision - base64 + API handled by Python...")
 
         selectedIdx   := ImageChat.ModelDDL.Value
         selectedLabel := ImageChat.ModelLabels[selectedIdx]
         selectedModel := ImageChat.ModelMap[selectedLabel]
 
-        ; Escape prompt for shell arg — wrap in double quotes, escape inner quotes
+        ; Escape prompt for shell arg - wrap in double quotes, escape inner quotes
         safePrompt := StrReplace(prompt, '"', '\"')
+        safePrompt := StrReplace(safePrompt, "`r`n", "\n")   ; Windows CRLF → \n
+        safePrompt := StrReplace(safePrompt, "`n",   "\n")   ; lone LF → \n
+
 
         ; Build file args
         fileArgs := ""

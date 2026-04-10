@@ -22,8 +22,8 @@ Two pipelines:
 |------|---------|
 | `VisionScribe_v2.ahk` | Current script - v1.6 feature set, v2.0 (InstaSnap + Notion) not yet added |
 | `InstaImage2TextConverter.py` | Python CLI helper - OCR and Direct Vision modes |
-| `config.ini` | Local settings — API key, Tesseract path, models, prompts. Gitignored. |
-| `config - example.ini` | Committed template — copy this to `config.ini` to get started |
+| `config.ini` | Local settings - API key, Tesseract path, models, prompts. Gitignored. |
+| `config - example.ini` | Committed template - copy this to `config.ini` to get started |
 
 ---
 
@@ -40,7 +40,7 @@ Two pipelines:
 
 ## Setup
 
-### Quick check — run these before first launch
+### Quick check - run these before first launch
 
 | Dependency | Verify command | Expected |
 |------------|---------------|----------|

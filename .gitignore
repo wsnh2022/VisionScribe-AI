@@ -1,4 +1,4 @@
-# Live config — contains API key and Tesseract path
+# Live config - contains API key and Tesseract path
 config.ini
 
 # Python cache
